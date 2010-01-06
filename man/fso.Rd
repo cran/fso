@@ -30,10 +30,10 @@
 \details{The algorithm converts the input to a full symmetric similarity matrix
     and bounds [0,1] (if necessary).  It then calculates
     several fuzzy sets: 
-    \deqn{\mu_a(i) = (x_i-min(x))/(max(x)-min(x))}
-    \deqn{\mu_b(i) = 1 - \mu_a(i)}
-    \deqn{\mu_c(i) = \Bigl(\sum_j \mu_a(j) \times y_{i,j}\Bigr) / \sum_j \mu_a(j)}
-    \deqn{\mu_d(i) = \Bigl(\sum_j \mu_b(j) \times y_{i,j}\Bigr) / \sum_j \mu_b(j)}
+    \deqn{mu_a(i) = (x_i-min(x))/(max(x)-min(x))}
+    \deqn{mu_b(i) = 1 - mu_a(i)}
+    \deqn{mu_c(i) = \Bigl(\sum_j mu_a(j) \times y_{i,j}\Bigr) / \sum_j \mu_a(j)}
+    \deqn{mu_d(i) = \Bigl(\sum_j mu_b(j) \times y_{i,j}\Bigr) / \sum_j \mu_b(j)}
 
     A separate fuzzy set ordination is calculated for each term in the
     formula.  If x is a matrix or dataframe a separate fuzzy set ordination is
@@ -65,7 +65,7 @@
     Roberts, D.W. 2007.  Statistical analysis of multidimensional fuzzy set 
     ordinations.  Ecology, in press.
 
-\url{http://ecology.msu.montana.edu/labdsv/R/lab11/lab11.html}
+\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 } 
 \note{Fuzzy set ordination is a method of multivariate analysis employed in 
 vegetation analysis.

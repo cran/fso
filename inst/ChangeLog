@@ -1,0 +1,5 @@
+fso 1.2-0
+
+1) I added a routine to look at 3-D MFSOs using the fabulous package rgl.
+
+2) I also added a routine to do tensioned hulls on MFSOs.

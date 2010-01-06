@@ -5,6 +5,8 @@
 \alias{hilight.mfso}
 \alias{chullord.mfso}
 \alias{boxplot.mfso}
+\alias{thull.mfso}
+\alias{rgl.mfso}
 
 \title{Plotting Routines for Multidimensional Fuzzy Set Ordinations}
 \description{A set of routines for plotting, identifying, or 
@@ -19,10 +21,15 @@ highlighting points in a multidimensional fuzzy set ordination (MFSO).}
 \method{chullord}{mfso}(x, overlay, cols = c(2, 3, 4, 5,
     6, 7), ltys = c(1, 2, 3), \dots)
 \method{boxplot}{mfso}(x, \dots)
+\method{thull}{mfso}(ord,var,grain,ax=1,ay=2,col=2,grid=50,
+           nlevels=5,levels=NULL,lty=1,numitr=100,...)
+rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
 }
 
 \arguments{
     \item{x}{an object of class \sQuote{mfso}}
+    \item{ord}{an object of class \sQuote{mfso}}
+    \item{mfso}{an object of class \sQuote{mfso}}
     \item{dis}{an object of class \sQuote{dist} from \code{dist},
         \code{\link[labdsv]{dsvdis}}, or 
         \code{\link[vegan]{vegdist}}}
@@ -41,6 +48,22 @@ highlighting points in a multidimensional fuzzy set ordination (MFSO).}
     \item{pch}{the symbol to plot}
     \item{col}{the color to use for plotted symbols}
     \item{cols}{an integer vector for color order}
+    \item{var}{a variable to fit with a tensioned hull}
+    \item{grain}{the size of the moving window used to calculate the
+                 tensioned hull}
+    \item{ax}{the X axis in a tensioned hull plot}
+    \item{ay}{the Y axis in a tensioned hull plot}
+    \item{grid}{the number of cells in the image version of the tensioned hull}
+    \item{nlevels}{the number of contour levels to plot the tensioned hull}
+    \item{levels}{a logical variable to control plotting the contours on the 
+                tensioned hull}
+    \item{lty}{the line type to use in drawing the contours}
+    \item{numitr}{the number of random iterations to use to compute the 
+               probability of obtaining as small a tensioned hull as observed}
+    \item{first}{the X axis in the 3-D rgl plot}
+    \item{second}{the Y axis in the 3-D rgl plot}
+    \item{third}{the Z axis in the 3-D rgl plot}
+    \item{radius}{the radius of the spheres used to represent points in the rgl plot} 
     \item{\dots}{arguments to pass to function points}
 }
 
@@ -90,7 +113,7 @@ same value for a factor variable, and colors all points of that value to match.
 The convention on colors follows
 \code{hilight}. 
 
-The \sQuote{boxplot} function plots boxplots of the $\mu$ membership values
+The \sQuote{boxplot} function plots boxplots of the \eqn{\mu} membership values
 in the MFSO.
 
 

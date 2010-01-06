@@ -96,7 +96,7 @@ The \sQuote{chullord} function plots convex hulls around all points sharing the
 same value for a factor variable, and colors all points of that value to match.
 The convention on colors follows \sQuote{hilight}. 
 
-The \sQuote{boxplot} function plots boxplots of the $\mu$ membership values
+The \sQuote{boxplot} function plots boxplots of the \eqn{\mu} membership values
 for the fuzzy sets in the fso.
 
 
@@ -113,7 +113,7 @@ same routines for other ordinations in package \code{labdsv}.
     \email{droberts@montana.edu}
 }
 \references{
-    \url{http://ecology.msu.montana.edu/labdsv/R/lab11/lab11.html}
+    \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 
 \seealso{
@@ -127,7 +127,7 @@ same routines for other ordinations in package \code{labdsv}.
     data(brycesite) # environmental data
     dis.bc <- dsvdis(bryceveg,'bray/curtis') # produce \sQuote{dist} object
     demo.fso <- fso(~elev+slope+av,dis.bc,data=brycesite)
-    plot(demo.fso)
+    \dontrun{plot(demo.fso)}
     \dontrun{hilight(demo.mfso,brycesite$quad)}
 }
 

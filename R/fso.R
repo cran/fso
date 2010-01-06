@@ -313,7 +313,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
                   cat(paste("variable ", x$var[i], " has missing values \n"))
                 }
                 else {
-                  plot(x$data[, i], x$mu[, i], xlab = x$var[i],
+                  plot(x$data[, i], x$mu[, i], xlab = xlab,
                     ylab = ylab, main = title)
                   if (r) {
                     ax <- min(x$data[, i])
@@ -327,7 +327,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
         }
         else if (is.numeric(which)) {
             for (i in which) {
-                plot(x$data[, i], x$mu[, i], xlab = x$var[i],
+                plot(x$data[, i], x$mu[, i], xlab = xlab,
                     ylab = ylab, main = title)
                 if (r) {
                     ax <- min(x$data[, i])
@@ -341,7 +341,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
         else {
             for (j in 1:ncol(x$mu)) {
                 if (which == x$var[j])
-                    plot(x$data[, j], x$mu[, j], xlab = x$var[j],
+                    plot(x$data[, j], x$mu[, j], xlab = xlab,
                       ylab = ylab, main = title)
                 if (r) {
                     ax <- min(x$data[, j])
@@ -353,7 +353,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
         }
     }
     else {
-        plot(x$data, x$mu, xlab = x$var, ylab = ylab, main = title)
+        plot(x$data, x$mu, xlab = xlab, ylab = ylab, main = title)
         if (r) {
             ax <- min(x$data)
             ay <- max(x$mu)
@@ -717,6 +717,82 @@ hilight.mfso <- function (x, overlay, cols = c(2, 3, 4, 5,
         }
     }
 }
+thull.mfso <- function (ord,var,grain,ax=1,ay=2,col=2,grid=50,nlevels=5,levels=NULL,lty=1,numitr=100,...)
+{
+    if (is.null(class(ord))) {
+        stop("You must supply an object of class mfso from mfso")
+    } else {
+        if (class(ord) != "mfso") {
+            stop("You must supply an object of class mfso from mfso")
+        }
+    }
+    if(missing(var)) {
+        stop("You must specify a variable to surface")
+    }
+    if (is.null(var)) {
+        stop("No such variable")
+    }
+    x <- ord$mu[,ax]
+    y <- ord$mu[,ay]
+    if (any(is.na(var))) {
+        cat("Omitting plots with missing values \n")
+        x <- x[!is.na(var)]
+        y <- y[!is.na(var)]
+        var <- var[!is.na(var)]
+    }
+    new.x <- seq(min(x),max(x),len=grid)
+    new.y <- seq(min(y),max(y),len=grid)
+    hull <- matrix(0,nrow=grid,ncol=grid)
+
+    res <- .Fortran('thull',
+                    hull=as.double(hull),
+                    as.double(new.x),
+                    as.double(new.y),
+                    as.integer(grid),
+                    as.double(x),
+                    as.double(y),
+                    as.double(var),
+                    as.integer(length(x)),
+                    as.double(grain),
+                    PACKAGE='labdsv')
+    if (is.null(levels)) {
+        vals <- levels(factor(var))
+        levels <- as.numeric(vals)[-1]
+    }
+
+    contour(x=new.x,y=new.y,z=matrix(res$hull,nrow=grid),
+        add=TRUE,col=col,nlevels=nlevels,levels=levels,lty=lty)
+    final <- matrix(res$hull,nrow=grid)
+    out <- list(thull=final,x=new.x,y=new.y,ax=x,ay=y,vals=var,
+           xlab=paste('MFSO',ax),ylab=paste('MFSO',ay),
+           main=deparse(substitute(var)))
+
+    if (numitr > 0) {
+        obssum <- sum(final)
+        rndsum <- rep(NA,numitr-1)
+        for (i in 1:(numitr-1)) {
+                res <- .Fortran('thull',
+                    hull=as.double(hull),
+                    as.double(new.x),
+                    as.double(new.y),
+                    as.integer(grid),
+                    as.double(x),
+                    as.double(y),
+                    as.double(sample(var,replace=FALSE)),
+                    as.integer(length(x)),
+                    as.double(grain),
+                    PACKAGE='labdsv')
+            rndsum[i] <- sum(res$hull)
+        }
+        cat(paste('\nvolume   = ',format(obssum,digits=5),'\nmean     = ',format(mean(rndsum),digit=5),
+                   '\nfraction = ',format(obssum/mean(rndsum),digits=5)))
+        cat(paste('\np <= ',(sum(rndsum<=obssum)+1)/numitr),'\n')
+        out$obs <- obssum
+        out$reps <- rndsum
+    }
+    class(out) <- 'thull'
+    invisible(out)
+}
 
 step.mfso <- function (dis,start,add,numitr=100,scaling=1)
 {
@@ -787,4 +863,27 @@ step.mfso <- function (dis,start,add,numitr=100,scaling=1)
         cat(paste('Baseline = ',format(basval,3),'\n'))
         print(res)
     }
+}
+
+
+rgl.mfso <- function (mfso,first=1,second=2,third=3,radius=0.0005,col=0,...) 
+{
+    if (class(mfso) != 'mfso') stop("The first argument must be an object of mfso")
+    require(rgl)
+    if (ncol(mfso$mu) < 3) stop("Must be 3-D")
+    tmp <- mfso$mu[,c(first,second,third)]
+
+    midp <- c(mean(tmp[,1]),mean(tmp[,2]),mean(tmp[,3]))
+
+    rgl.clear()
+    rgl.lines(range(mfso$mu[,first]),c(midp[2],midp[2]),c(midp[3],midp[3]))
+    rgl.lines(c(midp[1],midp[1]),range(mfso$mu[,second]),c(midp[3],midp[3]))
+    rgl.lines(c(midp[1],midp[1]),c(midp[2],midp[2]),range(mfso$mu[,third]))
+     
+    rgl.texts(1.01 * max(tmp[, 1]), midp[2], midp[3], mfso$var[first], adj = 0.5)
+    rgl.texts(midp[1], 1.01 * max(tmp[, 2]), midp[3], mfso$var[second], adj = 0.5)
+    rgl.texts(midp[1], midp[2],1.01 * max(tmp[, 3]), mfso$var[third], adj = 0.5)
+
+    rgl.points(tmp)
+    rgl.spheres(tmp,radius=radius,col=col)
 }

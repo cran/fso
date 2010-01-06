@@ -1,6 +1,6 @@
 \name{step.mfso}
 \alias{step.mfso}
-\title{Step-Wise Forward Variable Selection in a Multivariate Fuzzy Set Ordination}}
+\title{Step-Wise Forward Variable Selection in a Multivariate Fuzzy Set Ordination}
 \description{A simple routine to screen variables for addition to a multivariate
 fuzzy set ordination (MFSO).  The routine operates by adding variables one at a time
 to an existing MFSO (which can be NULL), and calculating the correlation coefficient
@@ -51,11 +51,13 @@ penalize for degrees of freedom (number of variables).
 Produces a table of the analysis but does not produce any objects
 }
 \references{Roberts, D.W.  2007.  Statistical analysis of multidimensional fuzzy
-set ordinations.  Ecology in press}
+set ordinations.  Ecology in press
+
+\url{http://ecology.msu.montana.edu/R/labdsv/lab11/lab11.html}
+}
 \author{
 	David W. Roberts
 	\email{droberts@montana.edu}
-	\url{http://ecology.msu.montana.edu/R/labdsv/lab11/lab11.html}
 }
 \examples{
 	\dontrun{require(labdsv) # make data available}

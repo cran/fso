@@ -20,7 +20,7 @@ statistical analysis.  MFSO can be used in exploratory or testing modes.
 the independent variables to use in fitting the model}
 
     \item{dis}{a dist object of class \sQuote{dist} returned from
-        \code{\link[mva]{dist}}, \code{\link[vegan]{vegdist}}, or
+        \code{dist}, \code{\link[vegan]{vegdist}}, or
         \code{\link[labdsv]{dsvdis}}}
 
     \item{data}{a data frame containing the variables specified in the formula}
@@ -38,8 +38,8 @@ that is uncorrelated with all previous axes.  If lm=FALSE, the full extent of al
 preserved without correcting for correlation with previous axes.}
 
     \item{scaling}{a switch to control how the initial fuzzy set axes are
-scaled: 1 = use raw $\mu$ membership values, 2 = relativize $\mu$ values [0,1],
-3 = relativize $\mu$ values [0,1] and multiply by respective correlation
+scaled: 1 = use raw \eqn{\mu} membership values, 2 = relativize \eqn{\mu} values [0,1],
+3 = relativize \eqn{\mu} values [0,1] and multiply by respective correlation
 coefficient. 
 }
 
@@ -82,12 +82,12 @@ equivalent to an fso, but the plotting routines differ.  For an mfso, the plotti
 routine plots each axis against all others in turn; for an fso the plotting routine
 plots each axis against the environmental or experimental variable it is derived
 from.}
-}
+
 \references{
 Roberts, D.W.  2007.  Statistical analysis of multidimensional 
 fuzzy set ordinations.  Ecology in press. 
 
-\url{http://ecology.montana.msu.edu/R/labdsv/lab11/lab11.html}
+\url{http://ecology.montana.msu.edu/R/labdsv/labs/lab11/lab11.html}
 }
 
 \author{
@@ -102,7 +102,8 @@ fuzzy set ordinations.  Ecology in press.
     dis.bc <- dsvdis(bryceveg,'bray/curtis')
                   # returns an object of class sQuote{dist}
     demo.mfso <- mfso(~elev+slope+av,dis.bc,data=brycesite) # creates the mfso
-    plot(demo.mfso)
+    summary(demo.mfso)
+    \dontrun{plot(demo.mfso)}
 }
 \keyword{multivariate}
 
