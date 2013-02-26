@@ -1,0 +1,11 @@
+50dabe135197e8c185fe967665b3a639 *DESCRIPTION
+3f0f93a6bd6f5fe37ec644ea4c6887e2 *NAMESPACE
+079323bd471774b18ea37b58e496e0be *R/fso.R
+55d573aa1d7eff4d3d451a09afac3d46 *inst/ChangeLog
+02117bb5293f9e159c58b1f50e2e6c66 *man/fso.Rd
+1bb5654d3a50e0804154ffd801d24707 *man/fso.internal.Rd
+751f0936a7691cfdcb96b6dc0bd5b211 *man/mfso.Rd
+eb5d0aeeba42394c4093c4b30ee2ec8b *man/plot.fso.Rd
+f3c5f82c4e9bd38f31607442a0236ab0 *man/plot.mfso.Rd
+9d2baf04f234dba7bc9174779e45ec71 *man/step.mfso.Rd
+721ccf0609414e5fc7a00489c27a8df6 *src/thull.f

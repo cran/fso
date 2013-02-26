@@ -13,18 +13,19 @@ or identifying the distribution of a third variable on an fso.}
 \usage{
 \method{plot}{fso}(x, which="all", xlab = x$var, ylab="mu(x)",
     title="",r=TRUE,pch=1,\dots)
-\method{points}{fso}(x, overlay, which=1, col=2, cex=1, pch=1, ...)
-\method{plotid}{fso}(x, which="all", xlab=x$var, ylab="mu(x)", title="",
-    r=TRUE, pch=1, labels=NULL)
-\method{hilight}{fso}(x, overlay, which=1, cols = c(2, 3, 4, 5,
-    6, 7), symbol = c(1, 3, 5), origpch = 1, blank = "#FFFFFF", \dots)
-\method{chullord}{fso}(x, overlay, which = 1, cols = c(2, 3, 4, 5,
+\method{points}{fso}(x, overlay, which="all", col=2, cex=1, pch=1, ...)
+\method{plotid}{fso}(ord, which="all", xlab=ord$var, ylab="mu(x)", title="",
+    r=TRUE, pch=1, labels=NULL, \dots)
+\method{hilight}{fso}(ord, overlay, which=1, cols = c(2, 3, 4, 5,
+    6, 7), symbol = c(1, 3, 5), \dots)
+\method{chullord}{fso}(ord, overlay, which = 1, cols = c(2, 3, 4, 5,
     6, 7), ltys = c(1, 2, 3), \dots)
 \method{boxplot}{fso}(x, \dots)
 }
 
 \arguments{
     \item{x}{an object of class \sQuote{fso}}
+    \item{ord}{an object of class \sQuote{fso}}
     \item{which}{a switch to control which axis is plotted}
     \item{r}{a switch to control printing the correlation coefficient 
         in the plot}
@@ -34,10 +35,6 @@ or identifying the distribution of a third variable on an fso.}
     \item{symbol}{an integer or vector of integers to control which symbols
         are printed in which order on the plot by specifying values to
         \code{pch}}
-    \item{origpch}{a switch to explain to hilight what symbol was used in the
-        original plot to be blanked out}
-    \item{blank}{a color specification to control blanking out of symbols to
-        match the background color}
     \item{ltys}{an integer or vector of integers to control the line styles
         of convex hull polygons}
     \item{xlab}{text label for X axis}
@@ -54,12 +51,12 @@ or identifying the distribution of a third variable on an fso.}
 Fuzzy set ordinations (FSO) are almost inherently graphical, and routines to
 facilitate plotting and overlaying are essential to work effectively with them.
 
-A fuzzy set ordination object (and object of class \sQuote{fso}) may contain one
+A fuzzy set ordination object (an object of class \sQuote{fso}) may contain one
 or more axes.  In the simplest case, for a single-axis fso, the plot routine
-plots the underlying raw data on the X axis and the fuzzy set axis on the Y
+plots the underlying raw data on the X axis and the fuzzy set memberships on the Y
 axis, including by default the correlation coefficient in the upper left corner.
 For fsos containing multiple axes, the default (which="all") is to plot the raw
-data on the X axis, the respective fuzzy set axis on the Y axis, plotting all
+data on the X axis, the respective fuzzy set memberships on the Y axis, plotting all
 axes in turn with a prompt to move to the next panel.  This is often effective.
 It is also possible to plot a single panel out of the set of axes, specifying
 the axis as an integer with, e.g., "which = 2."
@@ -102,7 +99,6 @@ for the fuzzy sets in the fso.
 
 }
 
-\value{none}
 
 \note{The plotting and highlighting routines for fso are designed to match the
 same routines for other ordinations in package \code{labdsv}.

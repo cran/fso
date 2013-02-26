@@ -50,23 +50,27 @@ penalize for degrees of freedom (number of variables).
 \value{
 Produces a table of the analysis but does not produce any objects
 }
-\references{Roberts, D.W.  2007.  Statistical analysis of multidimensional fuzzy
-set ordinations.  Ecology in press
 
-\url{http://ecology.msu.montana.edu/R/labdsv/lab11/lab11.html}
+\references{
+Roberts, D.W.  2007.  Statistical analysis of multidimensional
+fuzzy set ordinations.  Ecology 89:1246-1260.
+
+Roberts, D.W. 2009. Comparison of multidimensional fuzzy set ordination with CCA and DB-
+RDA. Ecology. 90:2622-2634.
+\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 \author{
 	David W. Roberts
 	\email{droberts@montana.edu}
 }
 \examples{
-	\dontrun{require(labdsv) # make data available}
-        \dontrun{data(bryceveg)  # get vegetation data}
-        \dontrun{data(brycesite) # get environmental data}
-        \dontrun{dis.bc <- dsvdis(bryceveg,'bray.curtis') # produce dist object}
-        \dontrun{attach(brycesite)   # make variables easily available}
-        \dontrun{step.mfso(dis.bc,start=NULL,add=data.frame(elev,slope,av))}
-        \dontrun{step.mfso(dis.bc,start=data.frame(elev),add=data.frame(slope,av))}
+    \dontrun{require(labdsv)} # make data available
+    \dontrun{data(bryceveg)}  # get vegetation data
+    \dontrun{data(brycesite)} # get environmental data
+    \dontrun{dis.bc <- dsvdis(bryceveg,'bray.curtis')} # produce dist object
+    \dontrun{attach(brycesite)}   # make variables easily available
+    \dontrun{step.mfso(dis.bc,start=NULL,add=data.frame(elev,slope,av))}
+    \dontrun{step.mfso(dis.bc,start=data.frame(elev),add=data.frame(slope,av))}
 }
 \keyword{multivariate}
 

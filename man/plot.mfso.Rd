@@ -13,12 +13,12 @@
 highlighting points in a multidimensional fuzzy set ordination (MFSO).}
 
 \usage{
-\method{plot}{mfso}(x, dis=NULL, pch=1, \dots)
+\method{plot}{mfso}(x, dis=NULL, pch=1, ax=NULL, ay=NULL, \dots)
 \method{points}{mfso}(x, overlay, col=2, pch=1, ...)
-\method{plotid}{mfso}(x, dis=NULL, labels=NULL, \dots)
-\method{hilight}{mfso}(x, overlay, cols = c(2, 3, 4, 5,
-    6, 7), symbol = c(1, 3, 5), origpch = 1, blank = "#FFFFFF", \dots)
-\method{chullord}{mfso}(x, overlay, cols = c(2, 3, 4, 5,
+\method{plotid}{mfso}(ord, dis=NULL, labels=NULL, \dots)
+\method{hilight}{mfso}(ord, overlay, cols = c(2, 3, 4, 5,
+    6, 7), symbol = c(1, 3, 5), \dots)
+\method{chullord}{mfso}(ord, overlay, cols = c(2, 3, 4, 5,
     6, 7), ltys = c(1, 2, 3), \dots)
 \method{boxplot}{mfso}(x, \dots)
 \method{thull}{mfso}(ord,var,grain,ax=1,ay=2,col=2,grid=50,
@@ -28,6 +28,8 @@ rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
 
 \arguments{
     \item{x}{an object of class \sQuote{mfso}}
+    \item{ax}{X axis number}
+    \item{ay}{Y axis number}
     \item{ord}{an object of class \sQuote{mfso}}
     \item{mfso}{an object of class \sQuote{mfso}}
     \item{dis}{an object of class \sQuote{dist} from \code{dist},
@@ -39,10 +41,6 @@ rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
     \item{symbol}{an integer or vector of integers to control which symbols
         are printed in which order on the plot by specifying values to
         \code{pch}}
-    \item{origpch}{a switch to explain to hilight what symbol was used in the
-        original plot to be blanked out}
-    \item{blank}{a color specification to control blanking out of symbols to
-        match the background color}
     \item{ltys}{an integer or vector of integers to control the line styles
         of convex hull polygons}
     \item{pch}{the symbol to plot}
@@ -51,8 +49,6 @@ rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
     \item{var}{a variable to fit with a tensioned hull}
     \item{grain}{the size of the moving window used to calculate the
                  tensioned hull}
-    \item{ax}{the X axis in a tensioned hull plot}
-    \item{ay}{the Y axis in a tensioned hull plot}
     \item{grid}{the number of cells in the image version of the tensioned hull}
     \item{nlevels}{the number of contour levels to plot the tensioned hull}
     \item{levels}{a logical variable to control plotting the contours on the 
@@ -74,7 +70,9 @@ effectively with them.
 
 A multidimensional fuzzy set ordination object (an object of class
 \sQuote{mfso}) generally contains at least two axes, and may contain many more.
-The \code{plot} routine plots all possible axis pairs in order.  If a
+By default, the \code{plot} routine plots all possible axis pairs in order.  
+If \sQuote{ax} and \sQuote{ay} are specified only a single plot is produced 
+with X axis ax and Y axis ay.  If
 \sQuote{dist} object is passed with the \sQuote{dis=} argument, the final panel
 is a plot of the dissimilarity or distance matrix values on the X axis and the
 pair-wise ordination distances on the Y axis with the correlation coefficient in
@@ -116,6 +114,8 @@ The convention on colors follows
 The \sQuote{boxplot} function plots boxplots of the \eqn{\mu} membership values
 in the MFSO.
 
+The \sQuote{thull} funntion drapes a tensioned hull for variable \sQuote{var}
+over the plotted mfso.
 
 }
 

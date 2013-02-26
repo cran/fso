@@ -1,3 +1,16 @@
+fso 2.0-1
+
+1) converted to NAMESPACE format
+
+2) recoded some of the plotting routines to make them more flexible. 
+
+3) made the thull executable local to fso rather than pulled from
+   labdsv
+
+4) tidied up the documentation
+
+
+
 fso 1.2-0
 
 1) I added a routine to look at 3-D MFSOs using the fabulous package rgl.

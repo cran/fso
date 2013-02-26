@@ -1,0 +1,12 @@
+# Export all names
+exportPattern(fso,fso.default,mfso,mfso.default,mfso.formula,
+summary.fso,summary.mfso,plot.fso,plot.mfso,plotid.fso,
+plotid.mfso,points.fso,points.mfso,boxplot.fso,boxplot.mfso,
+chullord.fso,chullord.mfso,hilight.fso,hilight.mfso,
+thull.mfso,step.mfso,rgl.mfso)
+
+# Import all packages listed as Imports or Depends
+import(
+    labdsv,
+    rgl
+)

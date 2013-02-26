@@ -54,10 +54,10 @@ column}
 \details{mfso performs individual fso calculations on each column of a
 data frame or matrix, and then combines those fso axes into a higher dimensional
 object.  The algorithm of fuzzy set ordination is described in the help
-file for fso.  The key element in mfso is the Gram-Schmidt orthogonalization,
+file for \code{\link{fso}}.  The key element in mfso is the Gram-Schmidt orthogonalization,
 which ensures that
 each axis is independent of all previous axes.  In practice, each axis is
-regressed against all previous axes, and the residuals are retained as the data.}
+regressed against all previous axes, and the residuals are retained as the result.}
 
 
 \value{an object of class \sQuote{mfso} with components:
@@ -68,13 +68,13 @@ the samples along the axes, one column for each axis}
 \item{p}{a vector of probabilities of observing correlations as high as
 observed}
 \item{var}{a vector of variables names used in fitting the model}
-\item{gamma}{a vector of the fraction of variance for an axis that is
+\item{gamma}{a vector of the fraction of variability for an axis that is
 independent of all previous axes}
 }
 \note{MFSO is an extension of single dimensional fuzzy set ordination
 designed to achieve low dimensional representations of a dissimilarity or
 distance matrix as a function of environmental or experimental variables.
-Although it is not technically a ``constrained ordination,'' in practice its use
+Although it is not technically a \sQuote{constrained ordination,} in practice its use
 is similar to \code{\link[vegan]{cca}} or \code{\link[vegan]{rda}}.
 
 If you set lm=FALSE, an mfso is
@@ -85,7 +85,11 @@ from.}
 
 \references{
 Roberts, D.W.  2007.  Statistical analysis of multidimensional 
-fuzzy set ordinations.  Ecology in press. 
+fuzzy set ordinations.  Ecology 89:1246-1260.
+
+Roberts, D.W. 2009. Comparison of multidimensional fuzzy set ordination with CCA and DB-
+RDA. Ecology. 90:2622-2634.
+
 
 \url{http://ecology.montana.msu.edu/R/labdsv/labs/lab11/lab11.html}
 }

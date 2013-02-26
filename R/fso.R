@@ -105,6 +105,7 @@ fso.formula <- function (formula, dis, data, permute = FALSE, ...)
     }
     else {
         tmp <- data.frame(model.matrix(formula,data=data)[, -1])
+        names(tmp) <- attr(terms(formula),"term.labels")
         notmis <- match(row.names(tmp),row.names(data))
     }
     dis <- as.dist(as.matrix(dis)[notmis, notmis])
@@ -313,7 +314,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
                   cat(paste("variable ", x$var[i], " has missing values \n"))
                 }
                 else {
-                  plot(x$data[, i], x$mu[, i], xlab = xlab,
+                  plot(x$data[, i], x$mu[, i], xlab = xlab[i],
                     ylab = ylab, main = title)
                   if (r) {
                     ax <- min(x$data[, i])
@@ -322,12 +323,13 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
                       digits = 3)), pos = 4)
                   }
                 }
-                readline("\nHit Return for Next Plot\n")
+                if (i != ncol(x$mu))
+                    readline("\nHit Return for Next Plot\n")
             }
         }
         else if (is.numeric(which)) {
             for (i in which) {
-                plot(x$data[, i], x$mu[, i], xlab = xlab,
+                plot(x$data[, i], x$mu[, i], xlab = xlab[i],
                     ylab = ylab, main = title)
                 if (r) {
                     ax <- min(x$data[, i])
@@ -341,7 +343,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
         else {
             for (j in 1:ncol(x$mu)) {
                 if (which == x$var[j])
-                    plot(x$data[, j], x$mu[, j], xlab = xlab,
+                    plot(x$data[, j], x$mu[, j], xlab = xlab[i],
                       ylab = ylab, main = title)
                 if (r) {
                     ax <- min(x$data[, j])
@@ -363,22 +365,31 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
     }
 }
 
-plot.mfso <- function (x,dis=NULL,pch=1,...)
+plot.mfso <- function (x,dis=NULL,pch=1,ax=NULL,ay=NULL,...)
 {
     if (class(x) != 'mfso') {
         stop("You must pass an object of class 'mfso'")
     }
-    for (i in 1:(ncol(x$mu)-1)) {
-        for (j in (i+1):ncol(x$mu)) {
-            plot(x$mu[,i],x$mu[,j],asp=1,
-                xlim=range(apply(x$mu,2,range)),
-                ylim=range(apply(x$mu,2,range)),
-                xlab=names(x$data)[i],
-                ylab=names(x$data)[j])
-                readline("\nHit Return for Next Plot\n")
+    if (is.null(ax) && is.null(ay)) {
+        for (i in 1:(ncol(x$mu)-1)) {
+            for (j in (i+1):ncol(x$mu)) {
+                plot(x$mu[,i],x$mu[,j],asp=1,
+                    xlim=range(apply(x$mu,2,range)),
+                    ylim=range(apply(x$mu,2,range)),
+                    xlab=names(x$data)[i],
+                    ylab=names(x$data)[j])
+                if (i != (ncol(x$mu) - 1) || j != ncol(x$mu))
+                    readline("\nHit Return for Next Plot\n")
+            }
         }
     }
+    else {
+        plot(x$mu[,ax],x$mu[,ay],asp = 1, xlim = range(apply(x$mu,
+                    2, range)), ylim = range(apply(x$mu, 2, range)),
+                    xlab = names(x$data)[ax], ylab = names(x$data)[ay])
+    }
     if(!is.null(dis)) {
+        readline("\nHit Return for Next Plot\n")
         tmp <- as.numeric(x$notmis)
         dis <- as.matrix(dis)[tmp,tmp]
         a <- dist(x$mu)
@@ -389,109 +400,109 @@ plot.mfso <- function (x,dis=NULL,pch=1,...)
     }
 }
 
-plotid.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
-    title = "", r = TRUE, pch = 1, labels=NULL)
+plotid.fso <- function (ord, which = "all", xlab = ord$var, ylab = "mu(x)",
+    title = "", r = TRUE, pch = 1, labels=NULL, ...)
 {
-    if (class(x) != "fso") {
+    if (class(ord) != "fso") {
         stop("You must specify n object of class fso from fso()")
     }
-    if (is.matrix(x$mu)) {
+    if (is.matrix(ord$mu)) {
         if (which == "all") {
-            for (i in 1:ncol(x$mu)) {
-                if (is.na(x$r[i])) {
-                  cat(paste("variable ", x$var[i], " has missing values \n"))
+            for (i in 1:ncol(ord$mu)) {
+                if (is.na(ord$r[i])) {
+                  cat(paste("variable ", ord$var[i], " has missing values \n"))
                 }
                 else {
-                  plot(x$data[, i], x$mu[, i], xlab = x$var[i],
+                  plot(ord$data[, i], ord$mu[, i], xlab = ord$var[i],
                     ylab = ylab, main = title)
                   if (r) {
-                    ax <- min(x$data[, i])
-                    ay <- max(x$mu[, i])
-                    text(ax, ay, paste("r = ", format(x$r[i],
+                    ax <- min(ord$data[, i])
+                    ay <- max(ord$mu[, i])
+                    text(ax, ay, paste("r = ", format(ord$r[i],
                       digits = 3)), pos = 4)
                   }
                 }
                 if (is.null(labels)) {
-                    identify(x$data[, i], x$mu[, i])
+                    identify(ord$data[, i], ord$mu[, i])
                 } 
                 else {
-                    identify(x$data[, i], x$mu[, i],labels)
+                    identify(ord$data[, i], ord$mu[, i],labels)
                 }
             }
         }
         else if (is.numeric(which)) {
             for (i in which) {
-                plot(x$data[, i], x$mu[, i], xlab = x$var[i],
+                plot(ord$data[, i], ord$mu[, i], xlab = ord$var[i],
                     ylab = ylab, main = title)
                 if (r) {
-                    ax <- min(x$data[, i])
-                    ay <- max(x$mu[, i])
-                    text(ax, ay, paste("r = ", format(x$r[i],
+                    ax <- min(ord$data[, i])
+                    ay <- max(ord$mu[, i])
+                    text(ax, ay, paste("r = ", format(ord$r[i],
                       digits = 3)), pos = 4)
                 }
                 if (is.null(labels)) {
-                    identify(x$data[, i], x$mu[, i])
+                    identify(ord$data[, i], ord$mu[, i])
                 }
                 else {
-                    identify(x$data[, i], x$mu[, i],labels)
+                    identify(ord$data[, i], ord$mu[, i],labels)
                 }
             }
         }
         else {
-            for (j in 1:ncol(x$mu)) {
-                if (which == x$var[j])
-                    plot(x$data[, j], x$mu[, j], xlab = x$var[j],
+            for (j in 1:ncol(ord$mu)) {
+                if (which == ord$var[j])
+                    plot(ord$data[, j], ord$mu[, j], xlab = ord$var[j],
                       ylab = ylab, main = title)
                 if (r) {
-                    ax <- min(x$data[, j])
-                    ay <- max(x$mu[, j])
-                    text(ax, ay, paste("r = ", format(x$r[j],
+                    ax <- min(ord$data[, j])
+                    ay <- max(ord$mu[, j])
+                    text(ax, ay, paste("r = ", format(ord$r[j],
                       digits = 3)), pos = 4)
                   }
             }
         }
     }
     else {
-        plot(x$data, x$mu, xlab = x$var, ylab = ylab, main = title)
+        plot(ord$data, ord$mu, xlab = ord$var, ylab = ylab, main = title)
         if (r) {
-            ax <- min(x$data)
-            ay <- max(x$mu)
-            text(ax, ay, paste("r = ", format(x$r, digits = 3)),
+            ax <- min(ord$data)
+            ay <- max(ord$mu)
+            text(ax, ay, paste("r = ", format(ord$r, digits = 3)),
                 pos = 4)
         }
         if (is.null(labels)) {
-            identify(x$data[, i], x$mu[, i])
+            identify(ord$data[, i], ord$mu[, i])
         }
         else {
-            identify(x$data[, i], x$mu[, i],labels)
+            identify(ord$data[, i], ord$mu[, i],labels)
         }
     }
 }
 
-plotid.mfso <- function (x,dis=NULL,labels=NULL,...) 
+plotid.mfso <- function (ord,dis=NULL,labels=NULL,...) 
 {
-    if (class(x) != 'mfso') {
+    if (class(ord) != 'mfso') {
         stop("You must pass an object of class 'mfso'")
     }
-    for (i in 1:(ncol(x$mu)-1)) {
-        for (j in (i+1):ncol(x$mu)) {
-            plot(x$mu[,i],x$mu[,j],asp=1,
-                xlim=range(apply(x$mu,2,range)),
-                ylim=range(apply(x$mu,2,range)),
-                xlab=names(x$data)[i],
-                ylab=names(x$data)[j])
+    for (i in 1:(ncol(ord$mu)-1)) {
+        for (j in (i+1):ncol(ord$mu)) {
+            plot(ord$mu[,i],ord$mu[,j],asp=1,
+                xlim=range(ord$mu),
+                ylim=range(ord$mu),
+                xlab=names(ord$data)[i],
+                ylab=names(ord$data)[j])
             if (is.null(labels)) {
-                identify(x$mu[,i],x$mu[,j])
+                identify(ord$mu[,i],ord$mu[,j])
             } 
             else {
-                identify(x$mu[,i],x$mu[,j],labels)
+                identify(ord$mu[,i],ord$mu[,j],labels)
             } 
         }
     }
     if(!is.null(dis)) {
-        tmp <- as.numeric(row.names(x$data))
+        tmp <- as.numeric(row.names(ord$data))
         dis <- as.matrix(dis)[tmp,tmp]
-        a <- dist(x$mu)
+        a <- dist(ord$mu)
         y <- as.dist(dis)
         if (length(y) > 5000) pch <- "."
         plot(y,a,ylab="Ordination Distance",xlab="Matrix Dissimilarity",pch=pch)
@@ -499,7 +510,7 @@ plotid.mfso <- function (x,dis=NULL,labels=NULL,...)
     }
 }
 
-points.fso <- function (x, overlay, which = 1, col = 2, cex = 1, pch = 1, ...)
+points.fso <- function (x, overlay, which = 'all', col = 2, cex = 1, pch = 1, ...)
 {
     if (class(x) != "fso") {
         stop("You must specify an object of class fso from fso()")
@@ -508,14 +519,32 @@ points.fso <- function (x, overlay, which = 1, col = 2, cex = 1, pch = 1, ...)
         stop("You must specify a overlay variable to highlight")
     }
     if (is.matrix(x$mu)) {
-        points(x$data[, which][overlay], x$mu[, which][overlay],
-            col = col, cex = cex)
+        if (is.numeric(which)) {
+            for (i in which) {
+                plot(x$data[, i], x$mu[, i], xlab = x$var[i],
+                    ylab = 'mu(x)')
+                points(x$data[overlay, i], x$mu[overlay,i],
+                    col = col, cex = cex, pch = pch)
+                readline("\nHit Return for Next Plot\n")
+            }
+        }
+        else if (which == 'all') {
+            for (i in 1:ncol(x$mu)) {
+                plot(x$data[,i],x$mu[,i],xlab = x$var[i],
+                    ylab = 'mu(x)')
+                points(x$data[overlay, i], x$mu[overlay,i],
+                    col = col, cex = cex, pch = pch)
+                if (i != ncol(x$mu))
+                    readline("\nHit Return for Next Plot\n")
+             }
+         }
     }
     else {
-        points(x$data[overlay], x$mu[overlay], col = col,
-            pch = pch, cex = cex)
+        points(x$data[overlay], x$mu[overlay], col = col, pch = pch,
+            cex = cex)
     }
 }
+
 
 points.mfso <- function (x, overlay, col = 2, pch = 1, ...)
 {
@@ -552,10 +581,10 @@ boxplot.mfso <- function (x, ...)
     boxplot(data.frame(x$mu),names=x$var, ...)
 }
 
-chullord.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
+chullord.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
     6, 7), ltys = c(1, 2, 3), ...)
 {
-    if (class(x) != "fso")
+    if (class(ord) != "fso")
         stop("You must pass an object of class fso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -566,10 +595,10 @@ chullord.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
     pass <- 1
     layer <- 0
     lty <- ltys[pass]
-    if (is.vector(x$data)) {
+    if (is.vector(ord$data)) {
         for (i in 1:max(overlay, na.rm = TRUE)) {
-            x <- x$dat[overlay == i & !is.na(overlay)]
-            y <- x$mu[overlay == i & !is.na(overlay)]
+            x <- ord$dat[overlay == i & !is.na(overlay)]
+            y <- ord$mu[overlay == i & !is.na(overlay)]
             pts <- chull(x, y)
             layer <- layer + 1
             if (layer > length(cols)) {
@@ -581,10 +610,10 @@ chullord.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
             polygon(x[pts], y[pts], col = col, density = 0, lty = lty)
         }
     }
-    else if (is.matrix(x$data) || is.data.frame(x$data)) {
+    else if (is.matrix(ord$data) || is.data.frame(ord$data)) {
         for (i in 1:max(overlay, na.rm = TRUE)) {
-            x <- x$dat[, which][overlay == i & !is.na(overlay)]
-            y <- x$mu[, which][overlay == i & !is.na(overlay)]
+            x <- ord$dat[, which][overlay == i & !is.na(overlay)]
+            y <- ord$mu[, which][overlay == i & !is.na(overlay)]
             pts <- chull(x, y)
             layer <- layer + 1
             if (layer > length(cols)) {
@@ -598,10 +627,10 @@ chullord.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
     }
 }
 
-chullord.mfso <- function (x, overlay, cols = c(2, 3, 4, 5,
-    6, 7), ltys = c(1, 2, 3), ...)
+chullord.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5, 6, 7), ltys = c(1,
+    2, 3), ...)
 {
-    if (class(x) != "mfso")
+    if (class(ord) != "mfso")
         stop("You must pass an object of class mfso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -609,40 +638,42 @@ chullord.mfso <- function (x, overlay, cols = c(2, 3, 4, 5,
         overlay <- as.numeric(overlay)
     else if (is.factor(overlay))
         overlay <- as.numeric(overlay)
-    overlay <- overlay[as.numeric(row.names(x$data))]
-    for (i in 1:(ncol(x$data)-1)) {
-        for (j in (i+1):ncol(x$data)) {
+    print(overlay)
+    for (i in 1:(ncol(ord$data) - 1)) {
+        for (j in (i + 1):ncol(ord$data)) {
+            print(paste(i,j))
+            print(ord$mu[1:2,])
             pass <- 1
             layer <- 0
             lty <- ltys[pass]
-            plot(x$mu[,i],x$mu[,j],asp=1,
-                xlim=range(apply(x$mu,2,range)),
-                ylim=range(apply(x$mu,2,range)),
-                xlab=x$var[i],ylab=x$var[j],col=cols(overlay))
+            plot(ord$mu[, i], ord$mu[, j], asp = 1, xlim = range(ord$mu),
+                ylim = range(ord$mu),
+                xlab = ord$var[i], ylab = ord$var[j], col = cols[overlay])
             for (k in 1:max(overlay, na.rm = TRUE)) {
-                x <- x$mu[overlay==k,i]
-                y <- x$mu[overlay==k,j]
+                x <- ord$mu[overlay == k, i]
+                y <- ord$mu[overlay == k, j]
                 pts <- chull(x, y)
+                print(pts)
                 layer <- layer + 1
                 if (layer > length(cols)) {
-                    layer <- 1
-                    pass <- min(pass + 1, length(ltys))
+                  layer <- 1
+                  pass <- min(pass + 1, length(ltys))
                 }
                 col <- cols[layer]
                 lty = ltys[pass]
-                polygon(x[pts], y[pts], col = col, density = 0, lty = lty)
-                points(x,y,col=col)
+                polygon(x[pts], y[pts], col = col, density = 0,
+                  lty = lty)
+                points(x, y, col = col)
             }
-        readline("\nHit Return for Next Plot\n")
+            readline("\nHit Return for Next Plot\n")
         }
     }
 }
 
-hilight.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
-    6, 7), symbol = c(1, 3, 5), origpch = 1, blank = "#FFFFFF",
-    ...)
+hilight.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
+    6, 7), symbol = c(1, 3, 5), ...)
 {
-    if (class(x) != "fso")
+    if (class(ord) != "fso")
         stop("You must pass an object of class fso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -650,9 +681,8 @@ hilight.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
         overlay <- as.numeric(overlay)
     layer <- 0
     pass <- 1
-    if (is.vector(x$data)) {
-        points(x$data, x$mu,
-            col = blank, pch = origpch)
+    if (is.vector(ord$data)) {
+        plot(ord$data, ord$mu, xlab=var[1], ylab='mu(x)', type='n')
         for (i in 1:max(overlay, na.rm = TRUE)) {
             layer <- layer + 1
             if (layer > length(cols)) {
@@ -661,13 +691,12 @@ hilight.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
             }
             col <- cols[layer]
             pch <- symbol[pass]
-            points(x$data[overlay==i], x$mu[overlay==i],
+            points(ord$data[overlay==i], ord$mu[overlay==i],
                 col = col, pch = pch)
         }
     }
-    else if (is.matrix(x$data) || is.data.frame(x$data)) {
-        points(x$data[, which], x$mu[, which],
-            col = blank, pch = origpch)
+    else if (is.matrix(ord$data) || is.data.frame(ord$data)) {
+        plot(ord$data[, which], ord$mu[, which], xlab=ord$var[which], ylab='mu(x)', type='n')
         for (i in 1:max(overlay, na.rm = TRUE)) {
             layer <- layer + 1
             if (layer > length(cols)) {
@@ -676,32 +705,30 @@ hilight.fso <- function (x, overlay, which = 1, cols = c(2, 3, 4, 5,
             }
             col <- cols[layer]
             pch <- symbol[pass]
-            points(x$data[overlay==i, which], x$mu[overlay==i, which],
+            points(ord$data[overlay==i, which], ord$mu[overlay==i, which],
                 col = col, pch = pch)
         }
     }
 }
 
-hilight.mfso <- function (x, overlay, cols = c(2, 3, 4, 5,
-    6, 7), symbol = c(1, 3, 5), origpch = 1, blank = "#FFFFFF", ...)
+hilight.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5,
+    6, 7), symbol = c(1, 3, 5),  ...)
 {
-    if (class(x) != "mfso")
+    if (class(ord) != "mfso")
         stop("You must pass an object of class mfso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
     if (is.logical(overlay) || is.factor(overlay))
         overlay <- as.numeric(overlay)
-    for (i in 1:(ncol(x$data)-1)) {
-        for (j in (i+1):ncol(x$data)) {
+    for (i in 1:(ncol(ord$data)-1)) {
+        for (j in (i+1):ncol(ord$data)) {
         layer <- 0
         pass <- 1
-            plot(x$mu[,i],x$mu[,j],asp=1,
-                xlim=range(apply(x$mu,2,range)),
-                ylim=range(apply(x$mu,2,range)),
-                xlab=names(x$data)[i],
-                ylab=names(x$data)[j])
-            points(x$mu[,i], x$mu[, j],
-                col = blank, pch = origpch)
+            plot(ord$mu[,i],ord$mu[,j],asp=1,type='n',
+                xlim=range(apply(ord$mu,2,range)),
+                ylim=range(apply(ord$mu,2,range)),
+                xlab=names(ord$data)[i],
+                ylab=names(ord$data)[j])
                 for (k in 1:max(overlay, na.rm = TRUE)) {
                     layer <- layer + 1
                     if (layer > length(cols)) {
@@ -710,13 +737,14 @@ hilight.mfso <- function (x, overlay, cols = c(2, 3, 4, 5,
                     }
                     col <- cols[layer]
                     pch <- symbol[pass]
-                    points(x$mu[overlay==k, i], x$mu[overlay==k, j],
+                    points(ord$mu[overlay==k, i], ord$mu[overlay==k, j],
                         col = col, pch = pch)
             }
         readline("\nHit Return for Next Plot\n")
         }
     }
 }
+
 thull.mfso <- function (ord,var,grain,ax=1,ay=2,col=2,grid=50,nlevels=5,levels=NULL,lty=1,numitr=100,...)
 {
     if (is.null(class(ord))) {
@@ -754,7 +782,7 @@ thull.mfso <- function (ord,var,grain,ax=1,ay=2,col=2,grid=50,nlevels=5,levels=N
                     as.double(var),
                     as.integer(length(x)),
                     as.double(grain),
-                    PACKAGE='labdsv')
+                    PACKAGE='fso')
     if (is.null(levels)) {
         vals <- levels(factor(var))
         levels <- as.numeric(vals)[-1]
@@ -781,7 +809,7 @@ thull.mfso <- function (ord,var,grain,ax=1,ay=2,col=2,grid=50,nlevels=5,levels=N
                     as.double(sample(var,replace=FALSE)),
                     as.integer(length(x)),
                     as.double(grain),
-                    PACKAGE='labdsv')
+                    PACKAGE='fso')
             rndsum[i] <- sum(res$hull)
         }
         cat(paste('\nvolume   = ',format(obssum,digits=5),'\nmean     = ',format(mean(rndsum),digit=5),
