@@ -1,12 +1,56 @@
 # Export all names
-exportPattern(fso,fso.default,mfso,mfso.default,mfso.formula,
-summary.fso,summary.mfso,plot.fso,plot.mfso,plotid.fso,
-plotid.mfso,points.fso,points.mfso,boxplot.fso,boxplot.mfso,
-chullord.fso,chullord.mfso,hilight.fso,hilight.mfso,
-thull.mfso,step.mfso,rgl.mfso)
+export(
+    fso,
+    fso.default,
+    fso.formula,
+    mfso,
+    mfso.default,
+    mfso.formula,
+    summary.fso,
+    summary.mfso,
+    plot.fso,
+    plot.mfso,
+    plotid.fso,
+    plotid.mfso,
+    points.fso,
+    points.mfso,
+    boxplot.fso,
+    boxplot.mfso,
+    chullord.fso,
+    chullord.mfso,
+    hilight.fso,
+    hilight.mfso,
+    thull.mfso,
+    step.mfso)
 
 # Import all packages listed as Imports or Depends
 import(
     labdsv,
-    rgl
-)
+    graphics)
+importFrom("grDevices", "chull")
+importFrom("stats", "as.dist", "cor", "cor.test", "dist",
+             "model.matrix", "var", "terms")
+
+
+# register S3 methods
+S3method(plot,fso)
+S3method(plot,mfso)
+S3method(boxplot,fso)
+S3method(boxplot,mfso)
+S3method(points,fso)
+S3method(points,mfso)
+S3method(summary,fso)
+S3method(summary,mfso)
+S3method(chullord,fso)
+S3method(chullord,mfso)
+S3method(fso,default)
+S3method(fso,formula)
+S3method(hilight,fso)
+S3method(hilight,mfso)
+S3method(mfso,default)
+S3method(mfso,formula)
+S3method(plotid,fso)
+S3method(plotid,mfso)
+S3method(thull,mfso)
+
+useDynLib(fso, .registration = TRUE)

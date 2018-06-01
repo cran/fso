@@ -5,7 +5,7 @@
 \alias{summary.fso}
 \title{Fuzzy Set Ordination}
 \description{
-   Computes a fuzzy set for samples along a specified environmental or
+   Compute a fuzzy set for samples along a specified environmental or
    experimental gradient based on
    sample similarities and gradient values as weights.  The fuzzy set memberships
    represent the degree to which a sample is similar to one end of the
@@ -19,7 +19,7 @@
 \arguments{
     \item{formula}{a formula in the form of ~x+y+z (no LHS)}
     \item{dis}{a dist object such as that returned by \code{dist},
-        \code{\link[labdsv]{dsvdis}}, or \code{\link[vegan]{vegdist}}}
+        \code{\link{dsvdis}}, or \sQuote{vegdist}}
     \item{data}{a data frame that holds variables listed in the formula}
     \item{permute}{if FALSE, estimate probabilities from Z distribution for correlation;
           if numeric, estimate probabilities from permutation of input}
@@ -30,13 +30,10 @@
 \details{The algorithm converts the input to a full symmetric similarity matrix
     and bounds [0,1] (if necessary).  It then calculates
     several fuzzy sets: 
-    \deqn{\mu_a(i) = (x_i-min(x))/(max(x)-min(x))}{mu_a(i) = (x_i-min(x))/(max(x)-min(x))}
-    \deqn{\mu_b(i) = 1 - \mu_a(i)}{mu_b(i) = 1 - mu_a(i)}
-    \deqn{\mu_c(i) = \Bigl(\sum_{j\ne i} \mu_a(j) \times y_{ij}\Bigr) / \sum_{j\ne i} \mu_a(j)}{mu_c(i) = (sum_j mu_a(j) * y_{ij}) / sum_j mu_a(j)}
-    \deqn{\mu_d(i) = \Bigl(\sum_{j\ne i} \mu_b(j) \times y_{ij}\Bigr) / \sum_{j\ne i} \mu_b(j)}{mu_d(i) = (sum_j mu_b(j) *  y_{ij}) / sum_j mu_b(j)}
-    \deqn{\mu_e(i) = \Bigl(1 + \bigl(\mu_d(i))^2 - (\mu_c(i)\bigr)^2\Bigr)/2}{mu_e(i) = (1 + mu_d(i)^2 - mu_c(i)^2)/2}
-
-    where \eqn{y_{i,j}} is the similarity of sample i to sample j.
+    \deqn{mu_a(i) = (x_i-min(x))/(max(x)-min(x))}{mu_a(i) = (x_i-min(x))/(max(x)-min(x))}
+    \deqn{mu_b(i) = 1 - mu_a(i)}{mu_b(i) = 1 - mu_a(i)}
+    \deqn{mu_c(i) = \Bigl(\sum_j mu_a(j) \times y_{i,j}i\Bigr) / \sum_j \mu_a(j)}{mu_c(i) = (sum_j mu_a(j) * y_{i,j}) / sum_j mu_a(j)}
+    \deqn{mu_d(i) = (\sum_j mu_b(j) \times y_{i,j}) / \sum_j \mu_b(j)}{mu_d(i) = (sum_j mu_b(j) *  y_{i,j}) / sum_j mu_b(j)}
 
     A separate fuzzy set ordination is calculated for each term in the
     formula.  If x is a matrix or dataframe a separate fuzzy set ordination is
@@ -102,7 +99,7 @@ vegetation analysis.
     dis <- dsvdis(bryceveg,'bray/curtis')
     elev.fso <- fso(brycesite$elev,dis)
     elev.fso <- fso(~elev,dis,data=brycesite)
-    plot(elev.fso)
+    plot.fso(elev.fso)
     summary(elev.fso)
 }
 \keyword{nonparametric}

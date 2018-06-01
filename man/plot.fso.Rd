@@ -112,11 +112,6 @@ same routines for other ordinations in package \code{labdsv}.
     \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 
-\seealso{
-\code{\link[labdsv]{plot.pco}}, \code{\link[labdsv]{points.pco}},
-\code{\link[labdsv]{hilight.pco}},\code{\link[labdsv]{chullord.pco}}
-}
-
 \examples{
     require(labdsv) # to obtain access to data sets and dissimilarity function
     data(bryceveg) # vegetation data

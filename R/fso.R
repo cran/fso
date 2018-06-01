@@ -102,10 +102,9 @@ fso.formula <- function (formula, dis, data, permute = FALSE, ...)
     if (missing(data)) {
         tmp <- data.frame(model.matrix(formula,data=parent.frame())[, -1])
         notmis <- as.numeric(row.names(tmp))
-    }
-    else {
+    } else {
         tmp <- data.frame(model.matrix(formula,data=data)[, -1])
-        names(tmp) <- attr(terms(formula),"term.labels")
+        names(tmp) <- attr(terms(formula), "term.labels")
         notmis <- match(row.names(tmp),row.names(data))
     }
     dis <- as.dist(as.matrix(dis)[notmis, notmis])
@@ -894,24 +893,24 @@ step.mfso <- function (dis,start,add,numitr=100,scaling=1)
 }
 
 
-rgl.mfso <- function (mfso,first=1,second=2,third=3,radius=0.0005,col=0,...) 
-{
-    if (class(mfso) != 'mfso') stop("The first argument must be an object of mfso")
-    require(rgl)
-    if (ncol(mfso$mu) < 3) stop("Must be 3-D")
-    tmp <- mfso$mu[,c(first,second,third)]
-
-    midp <- c(mean(tmp[,1]),mean(tmp[,2]),mean(tmp[,3]))
-
-    rgl.clear()
-    rgl.lines(range(mfso$mu[,first]),c(midp[2],midp[2]),c(midp[3],midp[3]))
-    rgl.lines(c(midp[1],midp[1]),range(mfso$mu[,second]),c(midp[3],midp[3]))
-    rgl.lines(c(midp[1],midp[1]),c(midp[2],midp[2]),range(mfso$mu[,third]))
-     
-    rgl.texts(1.01 * max(tmp[, 1]), midp[2], midp[3], mfso$var[first], adj = 0.5)
-    rgl.texts(midp[1], 1.01 * max(tmp[, 2]), midp[3], mfso$var[second], adj = 0.5)
-    rgl.texts(midp[1], midp[2],1.01 * max(tmp[, 3]), mfso$var[third], adj = 0.5)
-
-    rgl.points(tmp)
-    rgl.spheres(tmp,radius=radius,col=col)
-}
+#rgl.mfso <- function (mfso,first=1,second=2,third=3,radius=0.0005,col=0,...) 
+#{
+#    if (class(mfso) != 'mfso') stop("The first argument must be an object of mfso")
+#    require(rgl)
+#    if (ncol(mfso$mu) < 3) stop("Must be 3-D")
+#    tmp <- mfso$mu[,c(first,second,third)]
+#
+#    midp <- c(mean(tmp[,1]),mean(tmp[,2]),mean(tmp[,3]))
+#
+#    rgl.clear()
+#    rgl.lines(range(mfso$mu[,first]),c(midp[2],midp[2]),c(midp[3],midp[3]))
+#    rgl.lines(c(midp[1],midp[1]),range(mfso$mu[,second]),c(midp[3],midp[3]))
+#    rgl.lines(c(midp[1],midp[1]),c(midp[2],midp[2]),range(mfso$mu[,third]))
+#     
+#    rgl.texts(1.01 * max(tmp[, 1]), midp[2], midp[3], mfso$var[first], adj = 0.5)
+#    rgl.texts(midp[1], 1.01 * max(tmp[, 2]), midp[3], mfso$var[second], adj = 0.5)
+#    rgl.texts(midp[1], midp[2],1.01 * max(tmp[, 3]), mfso$var[third], adj = 0.5)
+#
+#    rgl.points(tmp)
+#    rgl.spheres(tmp,radius=radius,col=col)
+#}

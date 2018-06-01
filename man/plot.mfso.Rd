@@ -6,7 +6,6 @@
 \alias{chullord.mfso}
 \alias{boxplot.mfso}
 \alias{thull.mfso}
-\alias{rgl.mfso}
 
 \title{Plotting Routines for Multidimensional Fuzzy Set Ordinations}
 \description{A set of routines for plotting, identifying, or 
@@ -23,7 +22,6 @@ highlighting points in a multidimensional fuzzy set ordination (MFSO).}
 \method{boxplot}{mfso}(x, \dots)
 \method{thull}{mfso}(ord,var,grain,ax=1,ay=2,col=2,grid=50,
            nlevels=5,levels=NULL,lty=1,numitr=100,...)
-rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
 }
 
 \arguments{
@@ -33,8 +31,8 @@ rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
     \item{ord}{an object of class \sQuote{mfso}}
     \item{mfso}{an object of class \sQuote{mfso}}
     \item{dis}{an object of class \sQuote{dist} from \code{dist},
-        \code{\link[labdsv]{dsvdis}}, or 
-        \code{\link[vegan]{vegdist}}}
+        \code{\link{dsvdis}}, or 
+        \sQuote{vegdist}}
     \item{overlay}{a logical vector of the same length as the number of 
         points in the plot}
     \item{labels}{a vector of labels to print next to the identified points}
@@ -56,10 +54,6 @@ rgl.mfso(mfso,first=1,second=2,third=3,radius=0.0005,col=0,...)
     \item{lty}{the line type to use in drawing the contours}
     \item{numitr}{the number of random iterations to use to compute the 
                probability of obtaining as small a tensioned hull as observed}
-    \item{first}{the X axis in the 3-D rgl plot}
-    \item{second}{the Y axis in the 3-D rgl plot}
-    \item{third}{the Z axis in the 3-D rgl plot}
-    \item{radius}{the radius of the spheres used to represent points in the rgl plot} 
     \item{\dots}{arguments to pass to function points}
 }
 
@@ -128,14 +122,9 @@ same routines for other ordinations in package \code{labdsv}.
 \author{
     David W. Roberts
     \email{droberts@montana.edu}
-    \url{http://ecology.msu.montana.edu/R/labdsv/lab11/lab11.html}
+    \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
   
-\seealso{
-\code{\link[labdsv]{plot.pco}}, \code{\link[labdsv]{points.pco}},
-\code{\link[labdsv]{hilight.pco}},\code{\link[labdsv]{chullord.pco}}
-}
-
 \examples{
     require(labdsv) # to obtain access to data sets and dissimilarity function
     data(bryceveg) # vegetation data

@@ -12,7 +12,7 @@ step.mfso(dis,start,add,numitr=100,scaling=1)
 }
 \arguments{
 	\item{dis}{a dissimilarity of distance object from \code{dist},
-                   \code{\link[labdsv]{dsvdis}}, or \code{\link[vegan]{vegdist}}
+                   \code{\link{dsvdis}}, or \sQuote{vegdist}
                     or other \sQuote{dist} object}
 	\item{start}{either NULL (to find the first variable to add) or a data.frame
                      of binary or quantitative variables to use in the base model}
@@ -50,13 +50,9 @@ penalize for degrees of freedom (number of variables).
 \value{
 Produces a table of the analysis but does not produce any objects
 }
+\references{Roberts, D.W.  2007.  Statistical analysis of multidimensional fuzzy
+set ordinations.  Ecology in press
 
-\references{
-Roberts, D.W.  2007.  Statistical analysis of multidimensional
-fuzzy set ordinations.  Ecology 89:1246-1260.
-
-Roberts, D.W. 2009. Comparison of multidimensional fuzzy set ordination with CCA and DB-
-RDA. Ecology. 90:2622-2634.
 \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 \author{
@@ -64,13 +60,13 @@ RDA. Ecology. 90:2622-2634.
 	\email{droberts@montana.edu}
 }
 \examples{
-    \dontrun{require(labdsv)} # make data available
-    \dontrun{data(bryceveg)}  # get vegetation data
-    \dontrun{data(brycesite)} # get environmental data
-    \dontrun{dis.bc <- dsvdis(bryceveg,'bray.curtis')} # produce dist object
-    \dontrun{attach(brycesite)}   # make variables easily available
-    \dontrun{step.mfso(dis.bc,start=NULL,add=data.frame(elev,slope,av))}
-    \dontrun{step.mfso(dis.bc,start=data.frame(elev),add=data.frame(slope,av))}
+	\dontrun{require(labdsv) # make data available}
+        \dontrun{data(bryceveg)  # get vegetation data}
+        \dontrun{data(brycesite) # get environmental data}
+        \dontrun{dis.bc <- dsvdis(bryceveg,'bray.curtis') # produce dist object}
+        \dontrun{attach(brycesite)   # make variables easily available}
+        \dontrun{step.mfso(dis.bc,start=NULL,add=data.frame(elev,slope,av))}
+        \dontrun{step.mfso(dis.bc,start=data.frame(elev),add=data.frame(slope,av))}
 }
 \keyword{multivariate}
 

@@ -20,8 +20,8 @@ statistical analysis.  MFSO can be used in exploratory or testing modes.
 the independent variables to use in fitting the model}
 
     \item{dis}{a dist object of class \sQuote{dist} returned from
-        \code{dist}, \code{\link[vegan]{vegdist}}, or
-        \code{\link[labdsv]{dsvdis}}}
+        \code{dist}, \sQuote{vegdist}, or
+        \code{\link{dsvdis}}}
 
     \item{data}{a data frame containing the variables specified in the formula}
 
@@ -68,14 +68,12 @@ the samples along the axes, one column for each axis}
 \item{p}{a vector of probabilities of observing correlations as high as
 observed}
 \item{var}{a vector of variables names used in fitting the model}
-\item{gamma}{a vector of the fraction of variability for an axis that is
+\item{gamma}{a vector of the fraction of variance for an axis that is
 independent of all previous axes}
 }
 \note{MFSO is an extension of single dimensional fuzzy set ordination
 designed to achieve low dimensional representations of a dissimilarity or
 distance matrix as a function of environmental or experimental variables.
-Although it is not technically a \sQuote{constrained ordination,} in practice its use
-is similar to \code{\link[vegan]{cca}} or \code{\link[vegan]{rda}}.
 
 If you set lm=FALSE, an mfso is
 equivalent to an fso, but the plotting routines differ.  For an mfso, the plotting
@@ -91,14 +89,13 @@ Roberts, D.W. 2009. Comparison of multidimensional fuzzy set ordination with CCA
 RDA. Ecology. 90:2622-2634.
 
 
-\url{http://ecology.montana.msu.edu/R/labdsv/labs/lab11/lab11.html}
+\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 
 \author{
     David W. Roberts
     \email{droberts@montana.edu}
 }
-\seealso{\code{\link[vegan]{cca}},\code{\link[vegan]{capscale}}}
 \examples{
     require(labdsv)
     data(bryceveg) # returns a vegetation dataframe

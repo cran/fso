@@ -1,15 +1,14 @@
+fso 2.1-1
+
+1) Updated to the new requirements on publishing functions
+
+2) removed rgl to a sepasrate package due to the dependencies
+
 fso 2.0-1
 
 1) converted to NAMESPACE format
 
 2) recoded some of the plotting routines to make them more flexible. 
-
-3) made the thull executable local to fso rather than pulled from
-   labdsv
-
-4) tidied up the documentation
-
-
 
 fso 1.2-0
 
