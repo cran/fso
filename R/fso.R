@@ -27,7 +27,7 @@ fso.default <- function (x, dis, permute = FALSE, ...)
     if (missing(x)) {
         stop("You must provide a numeric vector or matrix")
     }
-    if (class(dis) != "dist") {
+    if (!inherits(dis,'dist')) {
         stop("You must provide and object of class 'dist'")
     }
     if (max(dis) > 1) {
@@ -96,7 +96,7 @@ fso.formula <- function (formula, dis, data, permute = FALSE, ...)
 {
     if (!inherits(formula, "formula"))
         stop("Needs a model formula")
-    if (missing(dis) || class(dis) != "dist") {
+    if (missing(dis) || !inherits(dis,'dist')){
         stop("You must supply a (dis)similarity matrix\n")
     }
     if (missing(data)) {
@@ -131,7 +131,7 @@ mfso.default <- function(x,dis,permute=FALSE,scaling=1,lm=TRUE,notmis=NULL,...)
     if (missing(x)){
         stop("You must provide a numeric matrix, or dataframe")
     }
-    if (class(dis) != "dist") {
+    if (!inherits(dis,'dist')) {
         stop("You must supply an object of class 'dist'")
     }
     if (max(dis) > 1.0) {
@@ -220,7 +220,7 @@ mfso.formula <- function (formula, dis, data, permute = FALSE, lm = TRUE, scalin
 {
     if (!inherits(formula, "formula"))
         stop("Needs a model formula")
-    if (missing(dis) || class(dis) != "dist") {
+    if (missing(dis) || !inherits(dis,'dist')) {
         stop("You must supply a (dis)similarity matrix\n")
     }
     if (missing(data)) {
@@ -238,7 +238,7 @@ mfso.formula <- function (formula, dis, data, permute = FALSE, lm = TRUE, scalin
 
 summary.fso <- function (object,...)
 {
-    if (class(object) != "fso") {
+    if (!inherits(object,"fso")) {
         stop("You must specify an object of class fso from fso()")
     }
     if (is.matrix(object$mu)) {
@@ -281,7 +281,7 @@ summary.fso <- function (object,...)
 
 summary.mfso <- function (object,...)
 {
-    if (class(object) != "mfso") {
+    if (!inherits(object,"mfso")) {
         stop("You must specify an object of class mfso from mfso()")
     }
     num <- seq(1:length(object$r))
@@ -303,7 +303,7 @@ summary.mfso <- function (object,...)
 plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
     title = "", r = TRUE, pch = 1, ...)
 {
-    if (class(x) != "fso") {
+    if (!inherits(x,"fso")) {
         stop("You must specify n object of class fso from fso()")
     }
     if (is.matrix(x$mu)) {
@@ -366,7 +366,7 @@ plot.fso <- function (x, which = "all", xlab = x$var, ylab = "mu(x)",
 
 plot.mfso <- function (x,dis=NULL,pch=1,ax=NULL,ay=NULL,...)
 {
-    if (class(x) != 'mfso') {
+    if (!inherits(x,'mfso')) {
         stop("You must pass an object of class 'mfso'")
     }
     if (is.null(ax) && is.null(ay)) {
@@ -402,7 +402,7 @@ plot.mfso <- function (x,dis=NULL,pch=1,ax=NULL,ay=NULL,...)
 plotid.fso <- function (ord, which = "all", xlab = ord$var, ylab = "mu(x)",
     title = "", r = TRUE, pch = 1, labels=NULL, ...)
 {
-    if (class(ord) != "fso") {
+    if (!inherits(ord,"fso")) {
         stop("You must specify n object of class fso from fso()")
     }
     if (is.matrix(ord$mu)) {
@@ -480,7 +480,7 @@ plotid.fso <- function (ord, which = "all", xlab = ord$var, ylab = "mu(x)",
 
 plotid.mfso <- function (ord,dis=NULL,labels=NULL,...) 
 {
-    if (class(ord) != 'mfso') {
+    if (!inherits(ord,'mfso')) {
         stop("You must pass an object of class 'mfso'")
     }
     for (i in 1:(ncol(ord$mu)-1)) {
@@ -511,7 +511,7 @@ plotid.mfso <- function (ord,dis=NULL,labels=NULL,...)
 
 points.fso <- function (x, overlay, which = 'all', col = 2, cex = 1, pch = 1, ...)
 {
-    if (class(x) != "fso") {
+    if (!inherits(x,"fso")) {
         stop("You must specify an object of class fso from fso()")
     }
     if (missing(overlay)) {
@@ -547,7 +547,7 @@ points.fso <- function (x, overlay, which = 'all', col = 2, cex = 1, pch = 1, ..
 
 points.mfso <- function (x, overlay, col = 2, pch = 1, ...)
 {
-    if (class(x) != "mfso")
+    if (!inherits(x,"mfso"))
         stop("You must pass an object of class mfso")
     overlay <- overlay[as.numeric(row.names(x$data))]
     for (i in 1:(ncol(x$data)-1)) {
@@ -566,7 +566,7 @@ points.mfso <- function (x, overlay, col = 2, pch = 1, ...)
 
 boxplot.fso <- function (x, ...)
 {
-    if (class(x) != 'fso') {
+    if (!inherits(x,'fso')) {
         stop("You must pass an object of class 'fso' from fso()")
     }
     boxplot(data.frame(x$mu),names=x$var, ...)
@@ -574,7 +574,7 @@ boxplot.fso <- function (x, ...)
 
 boxplot.mfso <- function (x, ...)
 {
-    if (class(x) != 'mfso') {
+    if (!inherits(x,'mfso')) {
         stop("You must pass an object of class 'mfso' from mfso()")
     }
     boxplot(data.frame(x$mu),names=x$var, ...)
@@ -583,7 +583,7 @@ boxplot.mfso <- function (x, ...)
 chullord.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
     6, 7), ltys = c(1, 2, 3), ...)
 {
-    if (class(ord) != "fso")
+    if (!inherits(ord,"fso"))
         stop("You must pass an object of class fso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -629,7 +629,7 @@ chullord.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
 chullord.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5, 6, 7), ltys = c(1,
     2, 3), ...)
 {
-    if (class(ord) != "mfso")
+    if (!inherits(ord,"mfso"))
         stop("You must pass an object of class mfso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -672,7 +672,7 @@ chullord.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5, 6, 7), ltys = c(1,
 hilight.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
     6, 7), symbol = c(1, 3, 5), ...)
 {
-    if (class(ord) != "fso")
+    if (!inherits(ord,"fso"))
         stop("You must pass an object of class fso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -713,7 +713,7 @@ hilight.fso <- function (ord, overlay, which = 1, cols = c(2, 3, 4, 5,
 hilight.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5,
     6, 7), symbol = c(1, 3, 5),  ...)
 {
-    if (class(ord) != "mfso")
+    if (!inherits(ord,"mfso"))
         stop("You must pass an object of class mfso")
     if (inherits(overlay, c("partana", "pam", "slice")))
         overlay <- overlay$clustering
@@ -746,12 +746,8 @@ hilight.mfso <- function (ord, overlay, cols = c(2, 3, 4, 5,
 
 thull.mfso <- function (ord,var,grain,ax=1,ay=2,col=2,grid=50,nlevels=5,levels=NULL,lty=1,numitr=100,...)
 {
-    if (is.null(class(ord))) {
+    if (!inherits(ord,"mfso")) {
         stop("You must supply an object of class mfso from mfso")
-    } else {
-        if (class(ord) != "mfso") {
-            stop("You must supply an object of class mfso from mfso")
-        }
     }
     if(missing(var)) {
         stop("You must specify a variable to surface")

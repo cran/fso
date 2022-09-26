@@ -1,8 +1,15 @@
+fso 2.1-2
+
+1) fixed a TeX typo in the Rd file
+
+2) changed all class(x) to inherits(x,)
+
+
 fso 2.1-1
 
 1) Updated to the new requirements on publishing functions
 
-2) removed rgl to a sepasrate package due to the dependencies
+2) removed rgl to a separate package due to the dependencies
 
 fso 2.0-1
 

@@ -88,8 +88,6 @@ fuzzy set ordinations.  Ecology 89:1246-1260.
 Roberts, D.W. 2009. Comparison of multidimensional fuzzy set ordination with CCA and DB-
 RDA. Ecology. 90:2622-2634.
 
-
-\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 
 \author{

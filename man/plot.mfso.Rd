@@ -122,7 +122,6 @@ same routines for other ordinations in package \code{labdsv}.
 \author{
     David W. Roberts
     \email{droberts@montana.edu}
-    \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
   
 \examples{

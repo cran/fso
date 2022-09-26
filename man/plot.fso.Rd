@@ -108,9 +108,6 @@ same routines for other ordinations in package \code{labdsv}.
     David W. Roberts
     \email{droberts@montana.edu}
 }
-\references{
-    \url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
-}
 
 \examples{
     require(labdsv) # to obtain access to data sets and dissimilarity function

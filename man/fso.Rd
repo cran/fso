@@ -41,7 +41,7 @@
 
     If permute is numeric, the permutation is performed permute-1 times,
     and the probability is estimated as 
-    \eqn{(correlations $>=$ observed + 1)/permute}{(correlations >= observed + 1)/permute.}
+    \eqn{(correlations >= observed + 1)/permute}{(correlations >= observed + 1)/permute.}
 }
 
 \value{
@@ -69,7 +69,6 @@
     Roberts, D.W.  2009.  Comparison of multidimensional fuzzy set ordination
     with CCA and DB-RDA.  Ecology.  90:2622-2634.
 
-\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 } 
 \note{Fuzzy set ordination is a method of multivariate analysis employed in 
 vegetation analysis.

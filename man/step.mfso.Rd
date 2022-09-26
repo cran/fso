@@ -53,7 +53,6 @@ Produces a table of the analysis but does not produce any objects
 \references{Roberts, D.W.  2007.  Statistical analysis of multidimensional fuzzy
 set ordinations.  Ecology in press
 
-\url{http://ecology.msu.montana.edu/labdsv/R/labs/lab11/lab11.html}
 }
 \author{
 	David W. Roberts
